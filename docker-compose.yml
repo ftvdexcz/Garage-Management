@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 services:
   user-service:
@@ -7,14 +7,17 @@ services:
       - 8000:8000
     networks:
       - gateway-network
+
     depends_on:
       - naming-service
+      - mysqldb
     environment:
       - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-service:8761/eureka
       - MANAGEMENT.ZIPKIN.TRACING.ENDPOINT=http://zipkin-server:9411/api/v2/spans
-      - SPRING.DATASOURCE.URL=jdbc:mysql://host.docker.internal:3308/garage_management_user_service
+      - SPRING.DATASOURCE.URL=jdbc:mysql://mysqldb:3306/garage_management_user_service
       - SPRING.DATASOURCE.USERNAME=root
       - SPRING.DATASOURCE.PASSWORD=123456
+    restart: unless-stopped
 
   accessory-service:
     image: ftvdexcz/accessory-service:0.0.1-SNAPSHOT
@@ -25,12 +28,14 @@ services:
       - gateway-network
     depends_on:
       - naming-service
+      - mysqldb
     environment:
       - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-service:8761/eureka
       - MANAGEMENT.ZIPKIN.TRACING.ENDPOINT=http://zipkin-server:9411/api/v2/spans
-      - SPRING.DATASOURCE.URL=jdbc:mysql://host.docker.internal:3308/garage_management_accessory_service
+      - SPRING.DATASOURCE.URL=jdbc:mysql://mysqldb:3306/garage_management_accessory_service
       - SPRING.DATASOURCE.USERNAME=root
       - SPRING.DATASOURCE.PASSWORD=123456
+    restart: unless-stopped
 
   car-repair-service:
     image: ftvdexcz/car-repair-service:0.0.1-SNAPSHOT
@@ -41,12 +46,14 @@ services:
       - gateway-network
     depends_on:
       - naming-service
+      - mysqldb
     environment:
       - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-service:8761/eureka
       - MANAGEMENT.ZIPKIN.TRACING.ENDPOINT=http://zipkin-server:9411/api/v2/spans
-      - SPRING.DATASOURCE.URL=jdbc:mysql://host.docker.internal:3308/garage_management_car_repair_service
+      - SPRING.DATASOURCE.URL=jdbc:mysql://mysqldb:3306/garage_management_car_repair_service
       - SPRING.DATASOURCE.USERNAME=root
       - SPRING.DATASOURCE.PASSWORD=123456
+    restart: unless-stopped
 
   api-gateway:
     image: ftvdexcz/api-gateway:0.0.1-SNAPSHOT
@@ -59,6 +66,7 @@ services:
     environment:
       - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-service:8761/eureka
       - MANAGEMENT.ZIPKIN.TRACING.ENDPOINT=http://zipkin-server:9411/api/v2/spans
+    restart: unless-stopped
 
   naming-service:
     image: ftvdexcz/naming-service:0.0.1-SNAPSHOT
@@ -66,6 +74,7 @@ services:
       - 8761:8761
     networks:
       - gateway-network
+    restart: unless-stopped
 
   # docker run -p 9411:9411 --name tracing-zipkin openzipkin/zipkin:2.23
   zipkin-server:
@@ -75,20 +84,20 @@ services:
     networks:
       - gateway-network
 
-  # mysqldb:
-  #   container_name: mysqldb
-  #   image: mysql:8.0
-  #   ports:
-  #     - '3307:3306'
-  #   networks:
-  #     - gateway-network
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=123456
-  #     - MYSQL_USER=longdq
-  #     - MYSQL_PASSWORD=123456
-  #   volumes:
-  #     - ./mysql_data:/var/lib/mysql
-  #     - ./mysql-script:/docker-entrypoint-initdb.d
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:8.0
+    ports:
+      - '3307:3306'
+    networks:
+      - gateway-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_USER=longdq
+      - MYSQL_PASSWORD=123456
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./mysql-script/init:/docker-entrypoint-initdb.d
 
 networks:
   gateway-network:
