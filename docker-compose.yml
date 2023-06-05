@@ -1,0 +1,94 @@
+version: '3.7'
+
+services:
+  user-service:
+    image: ftvdexcz/user-service:0.0.1-SNAPSHOT
+    ports:
+      - 8000:8000
+    networks:
+      - gateway-network
+    depends_on:
+      - naming-service
+    environment:
+      - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-service:8761/eureka
+      - MANAGEMENT.ZIPKIN.TRACING.ENDPOINT=http://zipkin-server:9411/api/v2/spans
+      - SPRING.DATASOURCE.URL=jdbc:mysql://host.docker.internal:3308/garage_management_user_service
+      - SPRING.DATASOURCE.USERNAME=root
+      - SPRING.DATASOURCE.PASSWORD=123456
+
+  accessory-service:
+    image: ftvdexcz/accessory-service:0.0.1-SNAPSHOT
+    # mem_limit: 700m
+    ports:
+      - 8100:8100
+    networks:
+      - gateway-network
+    depends_on:
+      - naming-service
+    environment:
+      - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-service:8761/eureka
+      - MANAGEMENT.ZIPKIN.TRACING.ENDPOINT=http://zipkin-server:9411/api/v2/spans
+      - SPRING.DATASOURCE.URL=jdbc:mysql://host.docker.internal:3308/garage_management_accessory_service
+      - SPRING.DATASOURCE.USERNAME=root
+      - SPRING.DATASOURCE.PASSWORD=123456
+
+  car-repair-service:
+    image: ftvdexcz/car-repair-service:0.0.1-SNAPSHOT
+    # mem_limit: 700m
+    ports:
+      - 8200:8200
+    networks:
+      - gateway-network
+    depends_on:
+      - naming-service
+    environment:
+      - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-service:8761/eureka
+      - MANAGEMENT.ZIPKIN.TRACING.ENDPOINT=http://zipkin-server:9411/api/v2/spans
+      - SPRING.DATASOURCE.URL=jdbc:mysql://host.docker.internal:3308/garage_management_car_repair_service
+      - SPRING.DATASOURCE.USERNAME=root
+      - SPRING.DATASOURCE.PASSWORD=123456
+
+  api-gateway:
+    image: ftvdexcz/api-gateway:0.0.1-SNAPSHOT
+    ports:
+      - 8765:8765
+    networks:
+      - gateway-network
+    depends_on:
+      - naming-service
+    environment:
+      - EUREKA.CLIENT.SERVICEURL.DEFAULTZONE=http://naming-service:8761/eureka
+      - MANAGEMENT.ZIPKIN.TRACING.ENDPOINT=http://zipkin-server:9411/api/v2/spans
+
+  naming-service:
+    image: ftvdexcz/naming-service:0.0.1-SNAPSHOT
+    ports:
+      - 8761:8761
+    networks:
+      - gateway-network
+
+  # docker run -p 9411:9411 --name tracing-zipkin openzipkin/zipkin:2.23
+  zipkin-server:
+    image: openzipkin/zipkin:2.23
+    ports:
+      - 9411:9411
+    networks:
+      - gateway-network
+
+  # mysqldb:
+  #   container_name: mysqldb
+  #   image: mysql:8.0
+  #   ports:
+  #     - '3307:3306'
+  #   networks:
+  #     - gateway-network
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=123456
+  #     - MYSQL_USER=longdq
+  #     - MYSQL_PASSWORD=123456
+  #   volumes:
+  #     - ./mysql_data:/var/lib/mysql
+  #     - ./mysql-script:/docker-entrypoint-initdb.d
+
+networks:
+  gateway-network:
