@@ -1,12 +1,12 @@
 ## Garage Management
 
-> Chạy Service và Mysql (Port mysql expose đang để là 3307, username=longdq, password=123456)
+Chạy service và mysql (Port mysql expose đang để là 3307, username=root, password=123456)
 
 ```
 docker-compose up -d
 ```
 
-> API Docs
+#### API Docs
 
 Thay đổi trong Environment Postman cho đúng:
 
@@ -17,3 +17,9 @@ Thay đổi trong Environment Postman cho đúng:
 Ví dụ endpoint /accessory của accessory-service sẽ có URI: `localhost:8765/accessory-service/accessory`
 
 - Đăng nhập lấy token xong thay đổi trong này không thì bị lỗi 401, có 3 role admin, customer, support
+
+#### Logs
+
+Xem log bằng zipkin: `http://localhost:9411/zipkin/`
+
+Xem các service đăng kí với eureka naming service: `http://localhost:8761/`
