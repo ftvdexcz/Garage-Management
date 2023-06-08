@@ -9,6 +9,7 @@ import com.garagemanagement.carrepairservice.common.model.BillDTO;
 import com.garagemanagement.carrepairservice.common.utils.GenerateUUID;
 import com.garagemanagement.carrepairservice.repository.BillRepository;
 import com.garagemanagement.carrepairservice.repository.CarRepairRepository;
+import com.garagemanagement.carrepairservice.repository.CarRepository;
 import com.garagemanagement.carrepairservice.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,34 @@ public class BillServiceImpl implements BillService {
 
     @Autowired
     CarRepairRepository carRepairRepository;
+
+    @Autowired
+    CarRepository carRepository;
+
+    public Bill createPayment(BillDTO billDTO){
+        Optional<CarRepair> carRepair = carRepairRepository.findById(billDTO.getCarRepairId());
+
+        if(carRepair.isEmpty())
+            throw AppError.ForeignKeyInvalid(CarRepair.class.getSimpleName());
+
+        String uuid = GenerateUUID.generateRandomUUID();
+
+        billDTO.setId(uuid);
+
+        CarRepair _carRepair = carRepair.get();
+
+        Bill bill = new Bill(
+                billDTO.getId(),
+                billDTO.getAmount(),
+                billDTO.getPaymentDate(),
+                _carRepair
+        );
+
+        _carRepair.setStatus(true);
+        carRepairRepository.save(_carRepair);
+
+        return billRepository.save(bill);
+    }
 
     @Override
     public Bill createBill(BillDTO billDTO) {
@@ -50,6 +79,15 @@ public class BillServiceImpl implements BillService {
     @Override
     public Bill getBillById(String id) {
         Optional<Bill> bill = billRepository.findById(id);
+
+        if(bill.isEmpty())
+            throw AppError.NotFoundError(Bill.class.getSimpleName());
+
+        return bill.get();
+    }
+
+    public Bill getBillByRepairId(String id){
+        Optional<Bill> bill = billRepository.findBillByRepairId(id);
 
         if(bill.isEmpty())
             throw AppError.NotFoundError(Bill.class.getSimpleName());

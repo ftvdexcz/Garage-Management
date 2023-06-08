@@ -5,14 +5,22 @@ import com.garagemanagement.carrepairservice.common.entity.Car;
 import com.garagemanagement.carrepairservice.common.entity.CarRepair;
 import com.garagemanagement.carrepairservice.common.handler.ResponseObject;
 import com.garagemanagement.carrepairservice.common.model.CarRepairDTO;
+import com.garagemanagement.carrepairservice.common.model.CarRepairPaginationDTO;
+import com.garagemanagement.carrepairservice.common.model.CreateAppointmentCarRepairDTO;
+import com.garagemanagement.carrepairservice.common.model.CreateDirectCarRepairDTO;
 import com.garagemanagement.carrepairservice.internal.InternalServiceImpl;
 import com.garagemanagement.carrepairservice.service.CarRepairService;
 import com.garagemanagement.carrepairservice.service.CarService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,6 +32,26 @@ public class CarRepairController {
     @Autowired
     InternalServiceImpl internalService;
 
+    @GetMapping("")
+    public ResponseEntity<ResponseObject> getCarRepairsPagination(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String status,
+            @RequestParam(defaultValue = "") String plate
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        List<Boolean> s = new ArrayList<>();
+        for(String i: status.split(",")){
+            s.add(Boolean.valueOf(i));
+        };
+
+        System.out.println(s);
+        Page<CarRepairPaginationDTO> carRepairPaginationDTOPage = carRepairService.findCarRepairs(s, plate, pageable);
+
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(carRepairPaginationDTOPage));
+    }
+
     @PostMapping("")
     public ResponseEntity<ResponseObject> createCarRepair(@Valid @RequestBody CarRepairDTO carRepairDTO,
                                                     @RequestHeader("Authorization") String token
@@ -32,6 +60,22 @@ public class CarRepairController {
 
         CarRepair createdCarRepair = carRepairService.createCarRepair(carRepairDTO);
         return ResponseEntity.ok(ResponseObject.successResponseWithData(createdCarRepair));
+    }
+
+    @PostMapping("/appointment")
+    public ResponseEntity<ResponseObject> createAppointmentCarRepair(
+            @Valid @RequestBody CreateAppointmentCarRepairDTO createAppointmentCarRepairDTO
+    ){
+        CarRepair createdAppoinmentCarRepair = carRepairService.createAppoinmentCarRepair(createAppointmentCarRepairDTO);
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(createdAppoinmentCarRepair));
+    }
+
+    @PostMapping("/direct")
+    public ResponseEntity<ResponseObject> createDirectCarRepair(
+            @Valid @RequestBody CreateDirectCarRepairDTO createDirectCarRepairDTO
+    ){
+        CarRepair creadDirectCarRepair = carRepairService.createDirectCarRepair(createDirectCarRepairDTO);
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(creadDirectCarRepair));
     }
 
     @GetMapping("/{id}")
@@ -62,4 +106,5 @@ public class CarRepairController {
         return ResponseEntity.status(StatusCodeResponse.STATUS_RESPONSE_CREATED_OK).
                 body(ResponseObject.successResponseWithData(updatedCarRepair));
     }
+
 }

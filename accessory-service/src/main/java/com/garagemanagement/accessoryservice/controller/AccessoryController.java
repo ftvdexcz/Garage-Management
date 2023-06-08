@@ -4,6 +4,7 @@ import com.garagemanagement.accessoryservice.common.constant.StatusCodeResponse;
 import com.garagemanagement.accessoryservice.common.entity.Accessory;
 import com.garagemanagement.accessoryservice.common.entity.Supplier;
 import com.garagemanagement.accessoryservice.common.handler.ResponseObject;
+import com.garagemanagement.accessoryservice.common.model.AccessoryPaginationDTO;
 import com.garagemanagement.accessoryservice.common.model.CreateAccessoryDTO;
 import com.garagemanagement.accessoryservice.common.model.CreateSupplierDTO;
 import com.garagemanagement.accessoryservice.common.model.PurchaseAccessoryDTO;
@@ -11,6 +12,9 @@ import com.garagemanagement.accessoryservice.internal.InternalServiceImpl;
 import com.garagemanagement.accessoryservice.service.AccessoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +28,18 @@ public class AccessoryController {
 
     @Autowired
     InternalServiceImpl internalService;
+
+    @GetMapping("")
+    public ResponseEntity<ResponseObject> getAccessoriesPagination(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String name
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<AccessoryPaginationDTO> accessories = accessoryService.getAccessoriesByName(name, pageable);
+
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(accessories));
+    }
 
     @PostMapping("")
     public ResponseEntity<ResponseObject> createAccessory(@Valid @RequestBody CreateAccessoryDTO createAccessoryDTO,

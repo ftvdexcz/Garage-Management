@@ -2,8 +2,11 @@ package com.garagemanagement.carrepairservice.service;
 
 import com.garagemanagement.carrepairservice.common.entity.Car;
 import com.garagemanagement.carrepairservice.common.entity.CarRepair;
-import com.garagemanagement.carrepairservice.common.model.CarRepairDTO;
+import com.garagemanagement.carrepairservice.common.model.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CarRepairService {
@@ -14,4 +17,15 @@ public interface CarRepairService {
     void deleteCarRepairById(String id);
 
     CarRepair updateCarRepairById(String id, Map<String, Object> fields);
+
+    CarRepair createAppoinmentCarRepair(CreateAppointmentCarRepairDTO createAppointmentCarRepairDTO);
+
+    CarRepair createDirectCarRepair(CreateDirectCarRepairDTO createDirectCarRepairDTO);
+
+    SalaryEmployeeDTO getSalaryEmployeeById(SalaryEmployeeDTO salaryEmployeeDTO);
+
+
+    List<SalaryEmployeeDTO> getSalaryEmployees(SalaryEmployeeDTO salaryEmployeeDTO);
+
+    Page<CarRepairPaginationDTO> findCarRepairs(List<Boolean> status, String plate, Pageable pageable);
 }

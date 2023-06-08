@@ -1,6 +1,7 @@
 package com.garagemanagement.carrepairservice.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class ServiceUsed {
     @Column(name = "amount", nullable = false)
     private double amount;
 
+    @JsonProperty("service_id")
     @Column(name = "service_id", nullable = false)
     private String serviceId;
 

@@ -1,20 +1,35 @@
 package com.garagemanagement.carrepairservice.internal;
 
+import com.garagemanagement.carrepairservice.common.model.internal.CreateUserDTO;
 import com.garagemanagement.carrepairservice.common.model.internal.RetrieveUserDTO;
+import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //@FeignClient(name = "user-service", url = "http://localhost:8000")
 @FeignClient(name = "user-service")
 public interface UserServiceProxy {
+    @PostMapping("/internal/user")
+    RetrieveUserDTO createUser(
+            @Valid @RequestBody CreateUserDTO createUserDTO
+    );
+
+    @GetMapping("/internal/user/phone/{phone}")
+    RetrieveUserDTO getUserByPhone(
+            @PathVariable String phone
+    );
+
     @GetMapping("/internal/user/{id}")
     RetrieveUserDTO getUserById(
             @PathVariable String id
     );
 
+    @GetMapping("/internal/users")
+    List<RetrieveUserDTO> getAllUsers(
+
+    );
     /*
      * Check role từ request:
      * Header Authorization gửi token "Bearer <token>"

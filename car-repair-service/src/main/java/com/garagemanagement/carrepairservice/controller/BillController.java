@@ -33,9 +33,30 @@ public class BillController {
         return ResponseEntity.ok(ResponseObject.successResponseWithData(createdBillDTO));
     }
 
+    /*
+    * Chức năng nhận thanh toán từ khách: tạo bill, cập nhật status trong bảng car_repair
+    *
+    * */
+
+    @PostMapping("/payment")
+    public ResponseEntity<ResponseObject> createPayment(@Valid @RequestBody BillDTO billDTO,
+                                                     @RequestHeader("Authorization") String token
+    ) {
+        internalService.checkUserHasRole(token, "ADMIN,SUPPORT");
+
+        Bill createdBillDTO = billService.createPayment(billDTO);
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(createdBillDTO));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getBillById(@PathVariable String id) {
         Bill bill = billService.getBillById(id);
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(bill));
+    }
+
+    @GetMapping("/car-repair/{id}")
+    public ResponseEntity<ResponseObject> getBillByRepairId(@PathVariable String id) {
+        Bill bill = billService.getBillByRepairId(id);
         return ResponseEntity.ok(ResponseObject.successResponseWithData(bill));
     }
 

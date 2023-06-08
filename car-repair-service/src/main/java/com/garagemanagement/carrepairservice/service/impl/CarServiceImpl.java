@@ -7,6 +7,8 @@ import com.garagemanagement.carrepairservice.internal.InternalServiceImpl;
 import com.garagemanagement.carrepairservice.repository.CarRepository;
 import com.garagemanagement.carrepairservice.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -76,5 +78,10 @@ public class CarServiceImpl implements CarService {
         internalService.checkUserRoleById(car.get().getCustomerId(), "CUSTOMER");
 
         return carRepository.save(car.get());
+    }
+
+    @Override
+    public Page<Car> getAllCars(String customerId, Pageable pageable) {
+        return carRepository.findCars(customerId, pageable);
     }
 }

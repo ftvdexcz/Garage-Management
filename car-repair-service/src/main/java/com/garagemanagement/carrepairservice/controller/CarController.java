@@ -7,6 +7,9 @@ import com.garagemanagement.carrepairservice.internal.InternalServiceImpl;
 import com.garagemanagement.carrepairservice.service.CarService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +23,18 @@ public class CarController {
 
     @Autowired
     InternalServiceImpl internalService;
+
+    @GetMapping("")
+    public ResponseEntity<ResponseObject> getServicesPagination(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String customerId
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Car> cars = carService.getAllCars(customerId, pageable);
+
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(cars));
+    }
 
     @PostMapping("")
     public ResponseEntity<ResponseObject> createCar(@Valid @RequestBody Car car

@@ -11,6 +11,9 @@ import com.garagemanagement.userservice.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,20 @@ public class UserController {
     @Autowired
     AuthService authService;
 
+    @GetMapping("")
+    public ResponseEntity<ResponseObject> getUsersPagination(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "3") String role
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<RetrieveUserDTO> users = userService.getUsersByNameAndRole(name, role, pageable);
+
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(users));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getUserById(@PathVariable String id) {
         RetrieveUserDTO user = userService.getUserById(id);
@@ -34,9 +51,9 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity<ResponseObject> createUser(HttpServletRequest request, @Valid @RequestBody CreateUserDTO createUserDTO) {
         // Nếu không phải admin thì chỉ có thể đăng kí với Role là Customer
-//        if (!authService.checkRole(request, UserRole.ADMIN.toString())) {
-//            createUserDTO.setRole(3);
-//        }
+        if (!authService.checkRole(request, UserRole.ADMIN.toString())) {
+            createUserDTO.setRole(3);
+        }
 
         RetrieveUserDTO createdUserDTO = userService.createUser(createUserDTO);
         return ResponseEntity.ok(ResponseObject.successResponseWithData(createdUserDTO));

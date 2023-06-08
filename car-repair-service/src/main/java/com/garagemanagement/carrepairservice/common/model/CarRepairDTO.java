@@ -3,7 +3,6 @@ package com.garagemanagement.carrepairservice.common.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,5 +34,4 @@ public class CarRepairDTO {
     @JsonProperty("car_id")
     @NotEmpty(message = "car id must be not empty")
     private String carId;
-
 }

@@ -8,6 +8,8 @@ import com.garagemanagement.accessoryservice.common.utils.GenerateUUID;
 import com.garagemanagement.accessoryservice.repository.ServiceRepository;
 import com.garagemanagement.accessoryservice.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -70,5 +72,9 @@ public class ServiceImpl implements IService {
         });
 
         return serviceRepository.save(service.get());
+    }
+
+    public Page<ServiceEntity> getServicesByName(String name, Pageable pageable){
+        return serviceRepository.findServicesByName(name, pageable);
     }
 }

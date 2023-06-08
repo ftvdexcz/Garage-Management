@@ -4,6 +4,7 @@ import com.garagemanagement.accessoryservice.common.entity.Accessory;
 import com.garagemanagement.accessoryservice.common.entity.AccessoryPurchased;
 import com.garagemanagement.accessoryservice.common.entity.Supplier;
 import com.garagemanagement.accessoryservice.common.handler.AppError;
+import com.garagemanagement.accessoryservice.common.model.AccessoryPaginationDTO;
 import com.garagemanagement.accessoryservice.common.model.CreateAccessoryDTO;
 import com.garagemanagement.accessoryservice.common.model.PurchaseAccessoryDTO;
 import com.garagemanagement.accessoryservice.common.model.internal.RetrieveUserDTO;
@@ -15,6 +16,8 @@ import com.garagemanagement.accessoryservice.repository.AccessoryRepository;
 import com.garagemanagement.accessoryservice.repository.SupplierRepository;
 import com.garagemanagement.accessoryservice.service.AccessoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -38,6 +41,10 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     @Autowired
     AccessoryPurchasedRepository accessoryPurchasedRepository;
+
+    public Page<AccessoryPaginationDTO> getAccessoriesByName(String name, Pageable pageable){
+        return accessoryRepository.findAccessoriesByName(name, pageable);
+    }
 
     public CreateAccessoryDTO createAccessory(CreateAccessoryDTO createAccessoryDTO){
         String id = GenerateUUID.generateRandomUUID();
@@ -128,6 +135,10 @@ public class AccessoryServiceImpl implements AccessoryService {
         );
 
         accessoryPurchasedRepository.save(accessoryPurchased);
+
+        accessory.get().setQuantity(accessory.get().getQuantity() - purchaseAccessoryDTO.getQuantity());
+
+        accessoryRepository.save(accessory.get());
 
         return purchaseAccessoryDTO;
     }

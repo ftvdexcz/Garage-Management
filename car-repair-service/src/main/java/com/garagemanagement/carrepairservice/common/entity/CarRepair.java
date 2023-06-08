@@ -1,6 +1,7 @@
 package com.garagemanagement.carrepairservice.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class CarRepair {
     @Column(name = "note")
     private String note;
 
+    @JsonProperty("employee_id")
     @Column(name = "employee_id")
     private String employeeId;
 

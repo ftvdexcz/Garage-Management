@@ -11,7 +11,11 @@ public interface BillService {
 
     Bill getBillById(String id);
 
+    Bill getBillByRepairId(String id);
+
     void deleteBillById(String id);
 
     Bill updateBillById(String id, Map<String, Object> fields);
+
+    Bill createPayment(BillDTO billDTO);
 }

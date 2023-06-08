@@ -1,0 +1,293 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Header */
+.wrapper .header {
+  height: 100vh;
+  width: 250px;
+  background: #00b4d8;
+}
+.logo {
+  padding: 20px 0;
+
+  display: flex;
+  border-bottom: 1px solid rgb(238, 226, 226);
+}
+.logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.logo .brandName {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.action {
+  padding: 0 10px;
+  margin-top: 8px;
+}
+
+.action h6 {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* .action .items {
+  margin-top: 15px;
+} */
+
+.action .items .item {
+  cursor: pointer;
+  padding: 18px 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.action .items .item:hover {
+  color: #fff;
+}
+
+.action .items .item i {
+  margin-right: 5px;
+}
+
+.action .items .item a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.action .items .item a:hover {
+  color: #fff;
+}
+
+/* Content */
+.wrapper .content {
+  height: 100vh;
+  width: 100%;
+  background: #e1e1e2;
+}
+.content-top {
+  padding-right: 20px;
+  display: flex;
+  width: 100%;
+  height: 71px;
+  background: #fff;
+  justify-content: end;
+  align-items: center;
+}
+
+.content-top p {
+  color: #858796;
+  font-size: 17px;
+}
+
+.content-top img {
+  margin-left: 10px;
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.content-bottom {
+  padding: 20px;
+}
+
+.content-bottom .add {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-bottom .add h3 {
+  color: #00b4d8;
+  font-size: 28px;
+}
+
+.content-bottom .add button {
+  color: #fff;
+  background: #00b4d8;
+  border: 1px solid #00b4d8;
+  padding: 10px 16px;
+  border-radius: 0.35rem;
+}
+
+/* Table */
+.table {
+  margin-top: 20px;
+}
+
+.table .table-header {
+  width: 100%;
+  text-align: center;
+  padding: 16px 20px;
+  background: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  color: #00b4d8;
+  font-size: 18px;
+  font-weight: 600;
+}
+.table .table-content {
+  padding: 10px 12px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  background: #fff;
+}
+
+.search-field {
+  text-align: end;
+  position: relative;
+}
+
+.search-field input {
+  padding: 8px 0 8px 5px;
+  font-size: 15px;
+  border: 1px solid #d1d3e2;
+  color: #6e707e;
+  border-radius: 6px;
+}
+.search-field i {
+  font-size: 18px;
+  position: absolute;
+  top: 8px;
+  right: 5px;
+}
+
+.main-table {
+  margin-top: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 1px solid;
+}
+
+th {
+  padding: 15px 0;
+}
+
+td {
+  padding: 10px 5px;
+}
+
+table .price {
+  width: 150px;
+}
+
+#logout-btn {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #00b4d8;
+  color: #fff;
+  border: none;
+  margin-left: 10px;
+}
+
+#btn-delete-item,
+#btn-update-item,
+#btn-buy-item {
+  border: 1px solid #ccc;
+  background-color: white;
+  font-size: 20px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+#searchInput {
+  padding: 0px 8px;
+  border: 1px solic #ccc;
+}
+
+#searchInput:focus {
+  /* border: 1px solid; */
+  overflow: visible;
+}
+
+.done {
+  color: green;
+}
+
+.pending {
+  color: red;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  display: none;
+}
+
+.switch label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 20px;
+  background-color: gray;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.switch label:before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.switch input:checked + label {
+  background-color: green;
+}
+
+.switch input:checked + label:before {
+  transform: translateX(20px);
+}
+
+.service-options-container,
+.accessory-options-container,
+#service-used,
+#accessory-used {
+  height: 100px;
+  overflow: auto;
+  background-color: white;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.quantity-input {
+  margin-left: 10px;
+  width: 40px;
+}

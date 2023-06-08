@@ -9,12 +9,13 @@ import com.garagemanagement.userservice.common.utils.HashedPassword;
 import com.garagemanagement.userservice.repository.UserRepository;
 import com.garagemanagement.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,6 +32,17 @@ public class UserServiceImpl implements UserService {
         return RetrieveUserDTO.retrieveUser(user.get());
     }
 
+    @Override
+    public List<RetrieveUserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+
+        List<RetrieveUserDTO> usersDTO = new ArrayList<>();
+        for (User u: users){
+            usersDTO.add(RetrieveUserDTO.retrieveUser(u));
+        }
+        return usersDTO;
+    }
+
 
     @Override
     public RetrieveUserDTO createUser(CreateUserDTO createUserDTO) {
@@ -40,6 +52,11 @@ public class UserServiceImpl implements UserService {
 
         if (user.isPresent())
             throw AppError.ExistedNameError(User.class.getSimpleName(), createUserDTO.getUsername());
+
+        Optional<User> user2 = userRepository.findByPhone(createUserDTO.getPhone());
+
+        if (user2.isPresent())
+            throw AppError.ExistedNameError(User.class.getSimpleName(), createUserDTO.getPhone());
 
         createUserDTO.setId(id);
 
@@ -76,5 +93,25 @@ public class UserServiceImpl implements UserService {
 
         User updatedUser = userRepository.save(user.get());
         return RetrieveUserDTO.retrieveUser(updatedUser);
+    }
+
+    public RetrieveUserDTO getUserByPhone(String phone){
+        Optional<User> user = userRepository.findByPhone(phone);
+
+        if (user.isEmpty())
+            throw AppError.NotFoundError(User.class.getSimpleName());
+
+        return RetrieveUserDTO.retrieveUser(user.get());
+    }
+
+    @Override
+    public Page<RetrieveUserDTO> getUsersByNameAndRole(String name, String role, Pageable pageable) {
+        List<Integer> stringList = new ArrayList<>();
+        String[] r = role.split(",");
+
+        for(String s: r){
+            stringList.add(Integer.parseInt(s));
+        }
+        return userRepository.findUsersByNameAndRole(name, stringList, pageable);
     }
 }

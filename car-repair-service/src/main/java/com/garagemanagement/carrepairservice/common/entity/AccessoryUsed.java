@@ -1,6 +1,7 @@
 package com.garagemanagement.carrepairservice.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class AccessoryUsed {
     @Column(name = "amount", nullable = false)
     private double amount;
 
+    @JsonProperty("accessory_id")
     @Column(name = "accessory_id", nullable = false)
     private String accessoryId;
 

@@ -10,6 +10,9 @@ import com.garagemanagement.accessoryservice.service.SupplierService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +26,21 @@ public class SupplierController {
 
     @Autowired
     InternalServiceImpl internalService;
+
+    @GetMapping("")
+    public ResponseEntity<ResponseObject> getSuppliersPagination(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String name,
+            @RequestHeader("Authorization") String token
+    ){
+        internalService.checkUserHasRole(token, "ADMIN");
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Supplier> suppliers = supplierService.getSuppliersByName(name, pageable);
+
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(suppliers));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getSupplierById(@PathVariable String id){

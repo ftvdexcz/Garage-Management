@@ -1,6 +1,7 @@
 package com.garagemanagement.accessoryservice.service.impl;
 
 import com.garagemanagement.accessoryservice.common.entity.Accessory;
+import com.garagemanagement.accessoryservice.common.entity.ServiceEntity;
 import com.garagemanagement.accessoryservice.common.entity.Supplier;
 import com.garagemanagement.accessoryservice.common.handler.AppError;
 import com.garagemanagement.accessoryservice.common.model.CreateSupplierDTO;
@@ -8,6 +9,8 @@ import com.garagemanagement.accessoryservice.common.utils.GenerateUUID;
 import com.garagemanagement.accessoryservice.repository.SupplierRepository;
 import com.garagemanagement.accessoryservice.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -70,5 +73,10 @@ public class SupplierServiceImpl implements SupplierService {
         });
 
         return supplierRepository.save(supplier.get());
+    }
+
+    @Override
+    public Page<Supplier> getSuppliersByName(String name, Pageable pageable) {
+        return supplierRepository.findSuppliersByName(name, pageable);
     }
 }

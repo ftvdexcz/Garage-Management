@@ -24,11 +24,20 @@ public class InternalController {
 
     @GetMapping("/accessory/{id}")
     public CreateAccessoryDTO getAccessoryById(@PathVariable String id) {
-        return accessoryService.getAccessoryById(id);
+        try{
+            return accessoryService.getAccessoryById(id);
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @GetMapping("/service/{id}")
     public ServiceEntity getServiceById(@PathVariable String id){
-        return iService.getServiceById(id);
+        try{
+            return iService.getServiceById(id);
+        }catch(Exception e){
+            return null;
+        }
+
     }
 }

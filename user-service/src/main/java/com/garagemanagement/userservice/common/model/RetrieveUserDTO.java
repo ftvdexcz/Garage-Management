@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class RetrieveUserDTO {
     private String id;
     private String username;
@@ -19,6 +19,16 @@ public class RetrieveUserDTO {
     private String email;
     private String address;
     private String role;
+
+    public RetrieveUserDTO(String id, String username, String fullname, String phone, String email, String address, int role){
+        this.id = id;
+        this.username = username;
+        this.fullname = fullname;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.role = withRole(role);
+    }
 
     public RetrieveUserDTO(String id, String username, String fullname, String phone, String email, String address){
         this.id = id;

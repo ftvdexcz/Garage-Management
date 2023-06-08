@@ -1,13 +1,14 @@
 package com.garagemanagement.carrepairservice.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
 
-@Table
-@Entity(name = "bill")
+@Table(name = "bill")
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,6 +21,7 @@ public class Bill {
     @Column(name = "amount", nullable = false)
     private double amount;
 
+    @JsonProperty("payment_date")
     @Column(name = "payment_date", nullable = false)
     private Date paymentDate;
 

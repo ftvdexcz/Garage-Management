@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý lịch sửa</title>
+
+  <link rel="stylesheet" type="text/css" href="../css/dashboard.css">
+
+
+  <!-------------------------------------------------->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"></script>
+
+  <script src="../script/pagination.js"></script>
+
+  <link rel="stylesheet" href="../css/pagination.css">
+  <!-------------------------------------------------->
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="header">
+    </div>
+
+    <div class="content">
+      <div class="content-top">
+        <p style="margin-bottom: 0 !important;" id="user-info"></p>
+        <button id="logout-btn">Đăng xuất</button>
+      </div>
+
+      <div class="content-bottom">
+        <form>
+          <div class="form-group">
+            <label for="customer">Tên khách hàng</label>
+            <input type="text" class="form-control" id="customer" placeholder="Tên khách hàng">
+          </div>
+          <div class="form-group">
+            <label for="phone">Số điện thoại</label>
+            <input type="text" class="form-control" id="phone" placeholder="Số điện thoại">
+          </div>
+          <div class="form-group">
+            <label for="plate">Biển số xe</label>
+            <input type="text" class="form-control" id="plate" placeholder="Biển số xe">
+          </div>
+          <div class="form-group">
+            <label for="dateInput">Ngày</label>
+            <input type="date" class="form-control" id="dateInput">
+          </div>
+          <div class="form-group">
+            <label for="select-employee">Chọn nhân viên</label>
+            <select class="form-control" id="select-employee">
+              <!-- <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option> -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="select-service">Chọn dịch vụ</label>
+            <div class="service-options-container">
+              <!-- <div class="service-options">
+                <div class="service-option">
+                  <input type="checkbox" id="option1" value="1">
+                  <label for="option1">Dịch vụ 1</label>
+                </div>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="select-accessory">Chọn linh kiện</label>
+            <div class="accessory-options-container">
+              <!-- <div class="accessory-options">
+                <div class="accessory-option">
+                  <input type="checkbox" id="option1" value="1">
+                  <label for="option1">Dịch vụ 1</label>
+                  <input type="number" class="quantity-input" min="0" value="1">
+                </div>
+              </div> -->
+            </div>
+          </div>
+
+          <button id="btn-add-car-repair-direct" type="button" class="btn btn-primary">Thêm</button>
+        </form>
+      </div>
+
+      <!-------------------------------------------------->
+      <script src="../script/func.js"></script>
+      <script src="../script/constant.js"></script>
+      <script src="../script/header.js"></script>
+      <!-------------------------------------------------->
+      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+        crossorigin="anonymous"></script>
+
+      <script src="../script/create-car-repair-direct.js"></script>
+</body>
+
+</html>
