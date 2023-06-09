@@ -1,0 +1,1865 @@
+{
+	"info": {
+		"_postman_id": "6ca37173-d973-4d9a-9274-5ce6177107c7",
+		"name": "Garage Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17240163"
+	},
+	"item": [
+		{
+			"name": "User Service",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"fullname\": \"admin\",\r\n    \"password\": \"123456\",\r\n    \"phone\": \"1234567890\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"address\": \"Hà Nội\",\r\n    \"role\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/user",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/user/d6f028c5-a1c3-41f9-85ef-67ac5399abd1",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"user",
+								"d6f028c5-a1c3-41f9-85ef-67ac5399abd1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"123\",\r\n    \r\n    // \"username\": \"longdq\",\r\n    // \"fullname\": \"Đặng Quốc Long\",\r\n    // \"password\": \"123456\",\r\n    // \"phone\": \"0362957746\",\r\n    // \"email\": \"longdq@ptit.com\",\r\n    \"address\": \"Hà Nội\",\r\n    \"role\": 1 // không thay đổi được role nếu là customer \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/user/67acd015-9928-436b-a73e-69663b7236ed",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"user",
+								"67acd015-9928-436b-a73e-69663b7236ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/user/67acd015-9928-436b-a73e-69663b7236ed",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"user",
+								"67acd015-9928-436b-a73e-69663b7236ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/auth/login",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/auth/logout",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Gửi token: Header \"Authorization Bearer\" -> return token mới để set cho client"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/auth/verify-token",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"auth",
+								"verify-token"
+							]
+						},
+						"description": "Gửi token: Header \"Authorization Bearer\""
+					},
+					"response": []
+				},
+				{
+					"name": "Internal - Check Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-user-role",
+								"value": "ADMIN",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/internal/auth/check-role",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"internal",
+								"auth",
+								"check-role"
+							]
+						},
+						"description": "Header Authorization\n\nHeader \"x-user-role\"\n\n\\-> Kiểm tra role từ 2 header này"
+					},
+					"response": []
+				},
+				{
+					"name": "Internal - Get User By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/internal/user/d6f028c5-a1c3-41f9-85ef-67ac5399abd1",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"internal",
+								"user",
+								"d6f028c5-a1c3-41f9-85ef-67ac5399abd1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Internal - Get User By Phone",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/internal/user/phone/0362957746",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"internal",
+								"user",
+								"phone",
+								"0362957746"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Internal - Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test internal\",\r\n    \"fullname\": \"test internal\",\r\n    \"password\": \"123456\",\r\n    \"phone\": \"1234567890\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"address\": \"Hà Nội\",\r\n    \"role\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/internal/user",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"internal",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users Pagination",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER_SERVICE_URL}}/user?role=3,1,2&name=Vũ&size=100",
+							"host": [
+								"{{USER_SERVICE_URL}}"
+							],
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "3,1,2"
+								},
+								{
+									"key": "name",
+									"value": "Vũ"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "# Role:\n\n- ADMIN: 1\n- SUPPORT: 2\n- CUSTOMER: 3"
+		},
+		{
+			"name": "Accessory Service",
+			"item": [
+				{
+					"name": "Accessory",
+					"item": [
+						{
+							"name": "Create Accessory",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-role",
+										"value": "ADMIN",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ốc vít\",\r\n    \"price\": 5000, \r\n    \"quantity\": 10000,\r\n    \"supplier_id\": \"9bc0144c-20ed-4e43-a494-57d96d08661d\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_GATEWAY}}/accessory",
+									"host": [
+										"{{ACCESSORY_SERVICE_GATEWAY}}"
+									],
+									"path": [
+										"accessory"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Accessory By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/accessory/d171c1b9-957b-4424-be9d-ec14abe2d626",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"accessory",
+										"d171c1b9-957b-4424-be9d-ec14abe2d626"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Internal - Get Accessory By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/internal/accessory/1cb692f4-bed5-4505-b746-ce67f13a816e",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"internal",
+										"accessory",
+										"1cb692f4-bed5-4505-b746-ce67f13a816e"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Accessory",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"price\": 5100.900\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/accessory/1cb692f4-bed5-4505-b746-ce67f13a816e",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"accessory",
+										"1cb692f4-bed5-4505-b746-ce67f13a816e"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Accessory",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/accessory/6a7677dc-8f91-4589-94dc-fe73f43346f3",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"accessory",
+										"6a7677dc-8f91-4589-94dc-fe73f43346f3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Purchase Accessory",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": 15,\r\n    \"amount\": 11,\r\n    \"purchased_date\": \"2023-13-01\",\r\n    \"employee_id\": \"d6f028c5-a1c3-41f9-85ef-67ac5399abd1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/accessory/1cb692f4-bed5-4505-b746-ce67f13a816e/purchase",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"accessory",
+										"1cb692f4-bed5-4505-b746-ce67f13a816e",
+										"purchase"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Accessory Pagination",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/accessory",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"accessory"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Service",
+					"item": [
+						{
+							"name": "Create Service",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"service 4\",\r\n    \"price\": 9999,\r\n    \"note\": \"test create service 4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/service",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"service"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Service By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/service/3cb4f6f0-e879-405b-972d-e09bb9383f04",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"service",
+										"3cb4f6f0-e879-405b-972d-e09bb9383f04"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Internal - Get Service By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/internal/service/3cb4f6f0-e879-405b-972d-e09bb9383f04",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"internal",
+										"service",
+										"3cb4f6f0-e879-405b-972d-e09bb9383f04"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Service By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/service/40e03c18-5a31-49d1-b687-d940848cb5c3",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"service",
+										"40e03c18-5a31-49d1-b687-d940848cb5c3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Service By Id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"note\": \"test update service\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/service/40e03c18-5a31-49d1-b687-d940848cb5c3",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"service",
+										"40e03c18-5a31-49d1-b687-d940848cb5c3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Services Pagination",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/service",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"service"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Supplier",
+					"item": [
+						{
+							"name": "Create Supplier",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Supplier 1\",\r\n    \"phone\": \"0988097190\",\r\n    \"email\": \"suppler1@example.com\", \r\n    \"address\": \"Hà Nội\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/supplier",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"supplier"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Supplier By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/supplier/9bc0144c-20ed-4e43-a494-57d96d08661d",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"supplier",
+										"9bc0144c-20ed-4e43-a494-57d96d08661d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Supplier",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n    \"phone\": \"0988097193\"\r\n   \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/supplier/ce347aad-c6ed-4c85-b797-43ea498a966a",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"supplier",
+										"ce347aad-c6ed-4c85-b797-43ea498a966a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Supplier",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/supplier/44b55dd2-a2da-4e18-8da6-f37fa9c45519",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"supplier",
+										"44b55dd2-a2da-4e18-8da6-f37fa9c45519"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Suppliers Pagination",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ACCESSORY_SERVICE_URL}}/supplier",
+									"host": [
+										"{{ACCESSORY_SERVICE_URL}}"
+									],
+									"path": [
+										"supplier"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Car Repair Service",
+			"item": [
+				{
+					"name": "Car",
+					"item": [
+						{
+							"name": "Create Car",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"plate\": \"30A-23952\",\r\n    \"customer_id\": \"67acd015-9928-436b-a73e-69663b7236ed\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Car By Id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car/1110ca49-27fe-4156-a7ca-b2f377b9ab5d",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car",
+										"1110ca49-27fe-4156-a7ca-b2f377b9ab5d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Car By Id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"plate\": \"30A-99999\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car/1110ca49-27fe-4156-a7ca-b2f377b9ab5d",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car",
+										"1110ca49-27fe-4156-a7ca-b2f377b9ab5d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Car",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"plate\": \"30A-99999\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car/1110ca49-27fe-4156-a7ca-b2f377b9ab5d",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car",
+										"1110ca49-27fe-4156-a7ca-b2f377b9ab5d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Cars Pagination",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car?customerId=67acd015-9928-436b-a73e-69663b7236ed&page=2",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car"
+									],
+									"query": [
+										{
+											"key": "customerId",
+											"value": "67acd015-9928-436b-a73e-69663b7236ed"
+										},
+										{
+											"key": "page",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Car Repair",
+					"item": [
+						{
+							"name": "Create Car Repair",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"date\": \"2023-12-13\",\r\n    \"note\": \"test create car repair\",\r\n    \"employee_id\": \"d6f028c5-a1c3-41f9-85ef-67ac5399abd1\",\r\n    \"car_id\": \"a828e62c-c19d-459a-97cc-b00d8ba0fe56\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car-repair",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car-repair"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Appoiment Car Repair",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"date\": \"2023-01-01\",\r\n    \"customer_id\": \"67acd015-9928-436b-a73e-69663b7236ed\",\r\n    \"plate\": \"29E2-9090\",\r\n    \"services\": [\"3cb4f6f0-e879-405b-972d-e09bb9383f03\", \"c7a7c665-f77c-4905-98ad-0da82c4129b3\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car-repair/appointment",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car-repair",
+										"appointment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Direct Car Repair",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"date\": \"2023-01-01\",\r\n    \"customer_name\": \"test direct\",\r\n    \"customer_phone\": \"0912264634\",\r\n    \"plate\": \"29E2-0000\",\r\n    \"employee_id\": \"d6f028c5-a1c3-41f9-85ef-67ac5399abd1\",\r\n    \"accessories\": [\"1cb692f4-bed5-4505-b746-ce67f13a816e,3\"], // \"<accessory_id>,<quantity_used>\"\r\n    \"services\": [\"c7a7c665-f77c-4905-98ad-0da82c4129b3\"],\r\n    \"note\": \"abc\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car-repair/direct",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car-repair",
+										"direct"
+									]
+								},
+								"description": "`accessories: [\"accessory_id,quantity_used\", ...]`"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Car Repair By Id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car-repair/578e750e-cccd-4df0-918c-b572159baee3",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car-repair",
+										"578e750e-cccd-4df0-918c-b572159baee3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Car Repair Pagination",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car-repair?status=false,true",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car-repair"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "false,true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Car Repair By Customer Id Pagination",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car-repair/customer?status=false,true&customerId=67acd015-9928-436b-a73e-69663b7236ed",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car-repair",
+										"customer"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "false,true"
+										},
+										{
+											"key": "customerId",
+											"value": "67acd015-9928-436b-a73e-69663b7236ed"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Car  Repair By Id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"note\": \"update test\",\r\n    \"employee_id\": \"adb376fe-6a48-4737-87c7-bc0af6a899a5\",\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car-repair/578e750e-cccd-4df0-918c-b572159baee3",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car-repair",
+										"578e750e-cccd-4df0-918c-b572159baee3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Car Repair",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"plate\": \"30A-99999\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/car-repair/86193756-301d-43c9-8135-c20350c69a89",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"car-repair",
+										"86193756-301d-43c9-8135-c20350c69a89"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Salary Employee By Id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"start_date\": \"2021-12-12\",\r\n    \"end_date\": \"2024-12-12\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/salary/d6f028c5-a1c3-41f9-85ef-67ac5399abd1",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"salary",
+										"d6f028c5-a1c3-41f9-85ef-67ac5399abd1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Salary Employee",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"start_date\": \"2021-12-12\",\r\n    \"end_date\": \"2024-12-12\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/salary",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"salary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Thống kê theo doanh thu khách",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"start_date\": \"2021-12-12\",\r\n    \"end_date\": \"2024-12-12\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/analys/customer",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"analys",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Accessory Used",
+					"item": [
+						{
+							"name": "Create Accessory Used",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": 2,\r\n    \"amount\": 12000,\r\n    \"accessory_id\": \"1cb692f4-bed5-4505-b746-ce67f13a816e\",\r\n    \"car_repair_id\": \"578e750e-cccd-4df0-918c-b572159baee3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/accessory-used",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"accessory-used"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Accessory Used",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/accessory-used/38a8507c-e399-442c-b3aa-9eebef838303",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"accessory-used",
+										"38a8507c-e399-442c-b3aa-9eebef838303"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Accessory Used",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/accessory-used/0e7d90b3-d4d1-49d2-8279-cb47b9017e3b",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"accessory-used",
+										"0e7d90b3-d4d1-49d2-8279-cb47b9017e3b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Accessory Used",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quantity\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/accessory-used/0e7d90b3-d4d1-49d2-8279-cb47b9017e3b",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"accessory-used",
+										"0e7d90b3-d4d1-49d2-8279-cb47b9017e3b"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Service Used",
+					"item": [
+						{
+							"name": "Create Service Used",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 12000,\r\n    \"service_id\": \"3cb4f6f0-e879-405b-972d-e09bb9383f04\",\r\n    \"car_repair_id\": \"578e750e-cccd-4df0-918c-b572159baee3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/service-used",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"service-used"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Service Used",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/service-used/4d54dfae-758b-401c-a1e2-99642589751b",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"service-used",
+										"4d54dfae-758b-401c-a1e2-99642589751b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Service Used",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/service-used/4d54dfae-758b-401c-a1e2-99642589751b",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"service-used",
+										"4d54dfae-758b-401c-a1e2-99642589751b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Service Used",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 13000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/service-used/a9add2c4-716f-45bb-baaf-8d0b96f01a5e",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"service-used",
+										"a9add2c4-716f-45bb-baaf-8d0b96f01a5e"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Bill",
+					"item": [
+						{
+							"name": "Create Bill",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": \"12000\",\r\n    \"payment_date\": \"2023-12-01\",\r\n    \"car_repair_id\": \"578e750e-cccd-4df0-918c-b572159baee3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/bill",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"bill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Payment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": \"12000\",\r\n    \"payment_date\": \"2023-12-01\",\r\n    \"car_repair_id\": \"578e750e-cccd-4df0-918c-b572159baee3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/bill/payment",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"bill",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Bill",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/bill/95cbde82-4012-4da8-9e0e-e2edf963e8c4",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"bill",
+										"95cbde82-4012-4da8-9e0e-e2edf963e8c4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Bill By Repair Id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/bill/car-repair/24059980-3cea-4cd1-ae7d-1035c81a2b97",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"bill",
+										"car-repair",
+										"24059980-3cea-4cd1-ae7d-1035c81a2b97"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Bill",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/bill/95cbde82-4012-4da8-9e0e-e2edf963e8c4",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"bill",
+										"95cbde82-4012-4da8-9e0e-e2edf963e8c4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Bill",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\": 999999\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CAR_REPAIR_SERVICE_URL}}/bill/95cbde82-4012-4da8-9e0e-e2edf963e8c4",
+									"host": [
+										"{{CAR_REPAIR_SERVICE_URL}}"
+									],
+									"path": [
+										"bill",
+										"95cbde82-4012-4da8-9e0e-e2edf963e8c4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8765/user-service/user/d6f028c5-a1c3-41f9-85ef-67ac5399abd1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"user",
+						"d6f028c5-a1c3-41f9-85ef-67ac5399abd1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_GATEWAY_URL}}/user-service/user/d6f028c5-a1c3-41f9-85ef-67ac5399abd1",
+					"host": [
+						"{{API_GATEWAY_URL}}"
+					],
+					"path": [
+						"user-service",
+						"user",
+						"d6f028c5-a1c3-41f9-85ef-67ac5399abd1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
