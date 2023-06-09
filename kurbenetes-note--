@@ -1,0 +1,24 @@
+kubectl create deployment user-service --image=ftvdexcz/user-service:0.0.2-SNAPSHOT
+kubectl create deployment accessory-service --image=ftvdexcz/accessory-service:0.0.2-SNAPSHOT
+kubectl create deployment car-repair-service --image=ftvdexcz/car-repair-service:0.0.2-SNAPSHOT
+
+kubectl create deployment api-gateway --image=ftvdexcz/api-gateway:0.0.2-SNAPSHOT
+kubectl create deployment naming-service --image=ftvdexcz/naming-service:0.0.2-SNAPSHOT
+
+
+kubectl expose deployment user-service --type=LoadBalancer --port=8000
+kubectl expose deployment accessory-service --type=LoadBalancer --port=8100
+kubectl expose deployment car-repair-service --type=LoadBalancer --port=8200
+kubectl expose deployment api-gateway --type=LoadBalancer --port=8765
+kubectl expose deployment naming-service --type=LoadBalancer --port=8761
+
+kubectl get deployment user-service -o yaml >> /home/longdqptit/garage-management/k8s-deploy-yml/user-service-deployment.yaml
+kubectl get deployment accessory-service -o yaml >> /home/longdqptit/garage-management/k8s-deploy-yml/accessory-service-deployment.yaml
+kubectl get deployment car-repair-service -o yaml >> /home/longdqptit/garage-management/k8s-deploy-yml/car-repair-service-deployment.yaml
+kubectl get deployment api-gateway -o yaml >> /home/longdqptit/garage-management/k8s-deploy-yml/api-gateway-deployment.yaml
+kubectl get deployment naming-service -o yaml >> /home/longdqptit/garage-management/k8s-deploy-yml/naming-service-deployment.yaml
+
+
+
+kubectl create deployment zipkin --image=openzipkin/zipkin:2.23
+kubectl expose deployment zipkin --type=LoadBalancer --port=9411
