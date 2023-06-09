@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.garagemanagement</groupId>
 	<artifactId>car-repair-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>car-repair-service</name>
 	<description>Car Repair Service</description>
 	<properties>

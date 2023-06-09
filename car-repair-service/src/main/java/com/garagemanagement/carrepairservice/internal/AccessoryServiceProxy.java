@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 //@FeignClient(name = "accessory-service", url = "http://localhost:8100")
-@FeignClient(name = "accessory-service")
+//@FeignClient(name = "accessory-service")
+
+// Change in kurbenetes
+@FeignClient(name = "accessory-service", url="${ACCESSORY_SERVICE_HOST:http://localhost}:8100")
 public interface AccessoryServiceProxy {
     @GetMapping("/internal/accessory/{id}")
     AccessoryDTO getAccessoryById(

@@ -2,7 +2,7 @@ version: '3'
 
 services:
   user-service:
-    image: ftvdexcz/user-service:0.0.2-SNAPSHOT
+    image: ftvdexcz/user-service:0.0.1-SNAPSHOT
     ports:
       - 8000:8000
     networks:
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
 
   accessory-service:
-    image: ftvdexcz/accessory-service:0.0.2-SNAPSHOT
+    image: ftvdexcz/accessory-service:0.0.1-SNAPSHOT
     # mem_limit: 700m
     ports:
       - 8100:8100
@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
 
   car-repair-service:
-    image: ftvdexcz/car-repair-service:0.0.2-SNAPSHOT
+    image: ftvdexcz/car-repair-service:0.0.1-SNAPSHOT
     # mem_limit: 700m
     ports:
       - 8200:8200
@@ -56,7 +56,7 @@ services:
     restart: unless-stopped
 
   api-gateway:
-    image: ftvdexcz/api-gateway:0.0.2-SNAPSHOT
+    image: ftvdexcz/api-gateway:0.0.1-SNAPSHOT
     ports:
       - 8765:8765
     networks:
@@ -69,7 +69,7 @@ services:
     restart: unless-stopped
 
   naming-service:
-    image: ftvdexcz/naming-service:0.0.2-SNAPSHOT
+    image: ftvdexcz/naming-service:0.0.1-SNAPSHOT
     ports:
       - 8761:8761
     networks:
