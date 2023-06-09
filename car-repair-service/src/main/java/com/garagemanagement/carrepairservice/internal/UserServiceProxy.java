@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //@FeignClient(name = "user-service", url = "http://localhost:8000")
-//@FeignClient(name = "user-service")
+@FeignClient(name = "user-service")
 
 // Change in kurbenetes
-@FeignClient(name = "user-service", url="${USER_SERVICE_HOST:http://localhost}:8000")
+//@FeignClient(name = "user-service", url="${USER_SERVICE_HOST:http://localhost}:8000")
 public interface UserServiceProxy {
     @PostMapping("/internal/user")
     RetrieveUserDTO createUser(
