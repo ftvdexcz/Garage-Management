@@ -58,7 +58,7 @@ services:
     restart: unless-stopped
 
   api-gateway:
-    image: ftvdexcz/api-gateway:0.0.2-SNAPSHOT
+    image: ftvdexcz/api-gateway:0.0.3-SNAPSHOT
     ports:
       - 8765:8765
     networks:
