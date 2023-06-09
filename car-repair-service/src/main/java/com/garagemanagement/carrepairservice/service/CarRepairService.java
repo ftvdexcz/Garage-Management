@@ -27,5 +27,9 @@ public interface CarRepairService {
 
     List<SalaryEmployeeDTO> getSalaryEmployees(SalaryEmployeeDTO salaryEmployeeDTO);
 
+    List<RevenueCustomerDTO> getRevenueCustomers(RevenueCustomerDTO revenueCustomerDTO);
+
     Page<CarRepairPaginationDTO> findCarRepairs(List<Boolean> status, String plate, Pageable pageable);
+
+    Page<CarRepairPaginationDTO> findCarRepairsByCustomerId(List<Boolean> status, String customerId, Pageable pageable);
 }

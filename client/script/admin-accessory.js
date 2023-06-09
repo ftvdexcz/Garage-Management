@@ -239,7 +239,7 @@ const template = (data) => {
 };
 
 const main = async () => {
-  const userData = await checkRole('ADMIN');
+  const userData = await checkRole('ADMIN,SUPPORT');
   console.log(userData);
 
   userInfo.textContent = `Xin chào, ${userData.fullname}`;

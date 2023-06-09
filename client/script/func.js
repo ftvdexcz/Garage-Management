@@ -109,9 +109,26 @@ const checkRole = async function (role) {
   if (!token) redirect(ERROR_403_HTML);
 
   try {
+    let f = false;
     const result = await verify_token(token);
 
-    return result.data;
+    const data = result.data;
+
+    console.log(data);
+
+    const roles = role.split(',');
+
+    console.log(roles);
+
+    roles.forEach((ele) => {
+      if (ele == data.role) {
+        f = true;
+      }
+    });
+
+    console.log(f);
+    if (f) return data;
+    else redirect(ERROR_403_HTML);
   } catch (error) {
     error.logging();
 

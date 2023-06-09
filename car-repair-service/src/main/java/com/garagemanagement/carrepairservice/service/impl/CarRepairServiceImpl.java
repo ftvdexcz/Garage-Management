@@ -1,9 +1,6 @@
 package com.garagemanagement.carrepairservice.service.impl;
 
-import com.garagemanagement.carrepairservice.common.entity.AccessoryUsed;
-import com.garagemanagement.carrepairservice.common.entity.Car;
-import com.garagemanagement.carrepairservice.common.entity.CarRepair;
-import com.garagemanagement.carrepairservice.common.entity.ServiceUsed;
+import com.garagemanagement.carrepairservice.common.entity.*;
 import com.garagemanagement.carrepairservice.common.handler.AppError;
 import com.garagemanagement.carrepairservice.common.model.*;
 import com.garagemanagement.carrepairservice.common.model.internal.AccessoryDTO;
@@ -12,10 +9,7 @@ import com.garagemanagement.carrepairservice.common.model.internal.RetrieveUserD
 import com.garagemanagement.carrepairservice.common.model.internal.ServiceDTO;
 import com.garagemanagement.carrepairservice.common.utils.GenerateUUID;
 import com.garagemanagement.carrepairservice.internal.InternalServiceImpl;
-import com.garagemanagement.carrepairservice.repository.AccessoryUsedRepository;
-import com.garagemanagement.carrepairservice.repository.CarRepairRepository;
-import com.garagemanagement.carrepairservice.repository.CarRepository;
-import com.garagemanagement.carrepairservice.repository.ServiceUsedRepository;
+import com.garagemanagement.carrepairservice.repository.*;
 import com.garagemanagement.carrepairservice.service.CarRepairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CarRepairServiceImpl implements CarRepairService {
@@ -42,6 +33,9 @@ public class CarRepairServiceImpl implements CarRepairService {
 
     @Autowired
     ServiceUsedRepository serviceUsedRepository;
+
+    @Autowired
+    BillRepository billRepository;
 
     @Override
     public CarRepair createCarRepair(CarRepairDTO carRepairDTO) {
@@ -318,6 +312,10 @@ public class CarRepairServiceImpl implements CarRepairService {
         return carRepairRepository.findCarRepairs(status, plate, pageable);
     }
 
+    public Page<CarRepairPaginationDTO> findCarRepairsByCustomerId(List<Boolean> status, String customerId, Pageable pageable){
+        return carRepairRepository.findCarRepairsByCustomerId(status, customerId, pageable);
+    }
+
     public List<SalaryEmployeeDTO> getSalaryEmployees(SalaryEmployeeDTO salaryEmployeeDTO) {
         List<RetrieveUserDTO> users = internalService.getAllUsers();
         List<SalaryEmployeeDTO> lists = new ArrayList<>();
@@ -350,6 +348,44 @@ public class CarRepairServiceImpl implements CarRepairService {
 
         }
 
+        return lists;
+    }
+
+    public List<RevenueCustomerDTO> getRevenueCustomers(RevenueCustomerDTO revenueCustomerDTO){
+        List<RetrieveUserDTO> users = internalService.getAllUsers();
+        List<RevenueCustomerDTO> lists = new ArrayList<>();
+
+        for (RetrieveUserDTO user : users) {
+            if (user.getRole().equals("CUSTOMER")) {
+                List<Agg> carRepairs = carRepairRepository.findCarRepairsByCustomerIdBetweenDate(revenueCustomerDTO.getStartDate(),
+                        revenueCustomerDTO.getEndDate(), user.getId());
+
+                Double d = (double) 0f;
+
+                for (Agg carRepair : carRepairs) {
+                    Optional<Bill> b = billRepository.findBillByRepairId(carRepair.getRepair_id());
+
+                    if(b.isPresent()){
+                        d += b.get().getAmount();
+                    }
+                }
+
+                lists.add(new RevenueCustomerDTO(
+                        user.getId(),
+                        user.getFullname(),
+                        user.getPhone(),
+                        user.getEmail(),
+                        user.getAddress(),
+                        revenueCustomerDTO.getStartDate(),
+                        revenueCustomerDTO.getEndDate(),
+                        d
+                ));
+            }
+
+        }
+        Collections.sort(lists, Comparator.comparingDouble(RevenueCustomerDTO::getTotal));
+
+        Collections.reverse(lists);
         return lists;
     }
 }

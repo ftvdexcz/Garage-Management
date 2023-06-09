@@ -45,6 +45,12 @@ document.querySelector('.header').innerHTML = `<div class="logo">
       Tính công nhân viên
     </a>
   </div>
+  <div class="item">
+    <a href="analys-revenue-customer.html">
+      <i class="pi pi-home"></i>
+      TK doanh thu khách hàng
+    </a>
+  </div>
 </div>
 </div>`;
 

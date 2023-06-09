@@ -25,19 +25,14 @@ if (token) {
           break;
 
         case 'SUPPORT':
-          // redirect(ADMIN_DASHBOARD_HTML);
+          redirect(ADMIN_DASHBOARD_HTML);
           break;
 
         case 'CUSTOMER':
-          // redirect(ADMIN_DASHBOARD_HTML);
-          break;
-
-        default:
+          redirect(CUSTOMER_DASHBOARD_HTML);
           break;
       }
-    } catch (error) {
-      // error.logging();
-    }
+    } catch (error) {}
   })();
 }
 
@@ -72,11 +67,11 @@ signinBtn.addEventListener('click', async (e) => {
         break;
 
       case 'SUPPORT':
-        // redirect(ADMIN_DASHBOARD_HTML);
+        redirect(ADMIN_DASHBOARD_HTML);
         break;
 
       case 'CUSTOMER':
-        // redirect(ADMIN_DASHBOARD_HTML);
+        redirect(CUSTOMER_DASHBOARD_HTML);
         break;
 
       default:

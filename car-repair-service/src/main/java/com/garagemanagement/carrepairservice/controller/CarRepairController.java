@@ -52,6 +52,26 @@ public class CarRepairController {
         return ResponseEntity.ok(ResponseObject.successResponseWithData(carRepairPaginationDTOPage));
     }
 
+    @GetMapping("/customer")
+    public ResponseEntity<ResponseObject> getCarRepairsByCustomerIdPagination(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String status,
+            @RequestParam(defaultValue = "") String customerId
+    ){
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        List<Boolean> s = new ArrayList<>();
+        for(String i: status.split(",")){
+            s.add(Boolean.valueOf(i));
+        };
+
+        System.out.println(s);
+        Page<CarRepairPaginationDTO> carRepairPaginationDTOPage = carRepairService.findCarRepairsByCustomerId(s, customerId, pageable);
+
+        return ResponseEntity.ok(ResponseObject.successResponseWithData(carRepairPaginationDTOPage));
+    }
+
     @PostMapping("")
     public ResponseEntity<ResponseObject> createCarRepair(@Valid @RequestBody CarRepairDTO carRepairDTO,
                                                     @RequestHeader("Authorization") String token

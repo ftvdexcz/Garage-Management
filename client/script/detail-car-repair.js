@@ -16,10 +16,41 @@ console.log(id);
 let _status;
 
 const main = async () => {
-  const userData = await checkRole('ADMIN');
+  const userData = await checkRole('ADMIN,SUPPORT,CUSTOMER');
   console.log(userData);
 
   userInfo.textContent = `Xin chào, ${userData.fullname}`;
+
+  if (userData.role == 'CUSTOMER') {
+    console.log('customer');
+
+    document.querySelector('.header').innerHTML = `<div class="logo">
+        <div class="brandName">Khách hàng</div>
+        </div>
+        <div class="action">
+        <div class="items">
+        <div class="item">
+        <a href="create-car-repair-appointment.html">
+        <i class="pi pi-home"></i>
+        Đặt lịch online
+        </a>
+        </div>
+        <div class="item">
+        <a href="customer-car-repair.html">
+        <i class="pi pi-home"></i>
+        Lịch sử
+        </a>
+        </div>
+        </div>
+        </div>`;
+
+    document.querySelector('#btn-payment').style.display = 'none';
+
+    document.querySelector('#payment').innerHTML = `
+    <p style="font-size: 20px; color: red">Chưa hoàn thành</p>
+    
+    `;
+  }
 
   let r = await call_api('GET', `${CAR_REPAIR_API}/${id}`, null, {
     Authorization: `Bearer ${token}`,
