@@ -1,6 +1,10 @@
-const USER_SERVICE = 'http://127.0.0.1:8765/user-service';
-const ACCESSORY_SERVICE = 'http://127.0.0.1:8765/accessory-service';
-const CAR_REPAIR_SERVICE = 'http://127.0.0.1:8765/car-repair-service';
+// const USER_SERVICE = 'http://127.0.0.1:8765/user-service';
+// const ACCESSORY_SERVICE = 'http://127.0.0.1:8765/accessory-service';
+// const CAR_REPAIR_SERVICE = 'http://127.0.0.1:8765/car-repair-service';
+
+const USER_SERVICE = 'http://171.241.62.13:8765/user-service';
+const ACCESSORY_SERVICE = 'http://171.241.62.13:8765/accessory-service';
+const CAR_REPAIR_SERVICE = 'http://171.241.62.13:8765/car-repair-service';
 
 const VERIFY_TOKEN_API = `${USER_SERVICE}/auth/verify-token`;
 const LOGOUT_API = `${USER_SERVICE}/auth/logout`;
